@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="index.css" />
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script src="index.js"></script>   
+    <title>Landing</title>
+</head>
+<body id="background">
+    <div id="main">
+        <h1>Welcome to Assignment tracker!</h1>
+        <div>
+            <h2>Login</h2>
+            <table>
+                <tr>
+                    <td><label>Email </label></td>
+                    <td><input id="loginEmail"></input></td>
+                </tr>
+                <tr>
+                    <td><label>Password </label></td>
+                    <td><input id="loginPassword"></input></td>
+                </tr>
+            </table>
+            <button onClick="login()">Okay</button>
+        </div>
+        <div>
+            <h2>Create Account</h2>
+            <table>
+                <tr>
+                    <td><label>Email </label></td>
+                    <td><input id="registerEmail"></input></td>
+                </tr>
+                <tr>
+                    <td><label>Password </label></td>
+                    <td><input id="registerPassword"></input></td>
+                </tr>
+            </table>
+            <button onClick="register()">Okay</button>
+            <p id="result"></p>
+        </div>
+    </div>
+
+</body>
+</html>

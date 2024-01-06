@@ -1,0 +1,24 @@
+#background {
+    background-color: rgb(40, 40, 40);
+}
+#main {
+    background-color: rgb(65, 65, 65);
+    margin: 20vh auto auto auto;
+    padding: 30px;
+    width: 50%;
+    height: 50vh;
+    text-align: center;
+    color: rgb(201, 201, 201);
+    border-radius: 10px;
+}
+table {
+    margin: auto;
+}
+input {
+    border-radius: 4px;
+    outline: none;
+    border: 0;
+}
+h2 {
+    color: lightblue;
+}
