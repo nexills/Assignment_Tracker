@@ -9,6 +9,10 @@ function login() {
         "&password=" + $('#loginPassword').val())
         .then((response)=> {
             console.log(response);
+            if (response.status === 500) {
+                $('#result').text("Server Error: Login failed");
+                throw new Error("Server error");
+            }
             return response.json();
         })
         .then((response)=> {
@@ -26,8 +30,8 @@ function login() {
             }
         })
     } catch (error) {
-        console.log(error);
         $('#result').text("Server error");
+        console.log(error);
     }
 }
 
@@ -45,8 +49,11 @@ function register() {
                 return response.json();
             } else {
                 // failed
+                if (response.status === 500) {
+                    $('#result').text("Server Error: Register failed");
+                    throw new Error("Server error");
+                }
                 console.log(response);
-                throw "Server error";
             }
         })
         .then((response)=> {
@@ -57,6 +64,5 @@ function register() {
         })
     } catch (error) {
         console.log(error);
-        $('#result').text("Server Error: Register failed");
     }
 }
