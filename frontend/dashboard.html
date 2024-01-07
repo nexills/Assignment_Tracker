@@ -31,23 +31,40 @@
             <button onClick="email()">Send to email</button>
         </div>
         <div>
-            <h2>Delete Account</h2>
-            <label>Re-enter Password </label><input id="pass"></input>
-            <button onClick="deleteAccount()">Okay</button>
-        </div>
-        <div>
-            <h2>Create Assignment</h2>
-            <label>Course </label><input id="course"></input><br>
-            <label>Title </label><input id="title"></input><br>
-            <label>Day </label><input id="day"></input><br>
-            <label>Month </label><input id="month"></input><br>
-            <label>Year </label><input id="year"></input><br>
-            <button onClick="post()">Okay</button>
+            <h2>Add a new assignment</h2>
+            <table>
+                <tr>
+                    <td>Course</td>
+                    <td><input id="course"></input></td>
+                </tr>
+                <tr>
+                    <td>Title</td>
+                    <td><input id="title"></input></td>
+                </tr>
+                <tr>
+                    <td>Due Day</td>
+                    <td><input id="day"></input></td>
+                </tr>
+                <tr>
+                    <td>Due Month</td>
+                    <td><input id="month"></input></td>
+                </tr>
+                <tr>
+                    <td>Due Year</td>
+                    <td><input id="year"></input></td>
+                </tr>
+            </table>
+            <button onClick="post()">Add</button>
         </div>
         <h3 id="result"></h3>
         <div>
             <h2>Log out</h2>
             <button onClick="logout()">Okay</button>
+        </div>
+        <div>
+            <h2>Delete Account</h2>
+            <label>Re-enter Password </label><input id="pass"></input><br>
+            <button onClick="deleteAccount()">Okay</button>
         </div>
     </div>
 </body>

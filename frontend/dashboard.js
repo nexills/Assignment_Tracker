@@ -96,10 +96,13 @@ function onLoad() {
         $("body").empty();
         $("body").append("<p>You are not logged in</p>");
         $("body").append("<button onClick=\"logout()\">Return to login page</button>");
+        return;
     } else {
         $("#welcome").text("Welcome, " + user_email);
         get();
     }
+    // default values for inputs
+    $("#year").val(new Date().getFullYear());
 }
 
 
@@ -136,7 +139,7 @@ function post() {
         console.log(promise);
         $("#day").val("");
         $("#month").val("");
-        $("#year").val("");
+        $("#year").val(new Date().getFullYear());
         $("#title").val("");
         $("#course").val("");
         get();

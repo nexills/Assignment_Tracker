@@ -23,8 +23,12 @@ input {
     outline: none;
     border: 0;
 }
+button {
+    margin: 5px;
+}
 h2 {
     color: lightblue;
+    margin: 10px;
 }
 td {
     padding: 3px 15px 3px 15px;
