@@ -4,11 +4,9 @@ function get() {
         fetch("http://localhost:9000/assignment/get?user=" +
         window.sessionStorage.getItem("AsTrackerDetails_id"))
         .then((promise)=> {
-            console.log(promise);
             return promise.json();
         })
         .then((promise)=> {
-            console.log(promise);
             $("#assignment_list").empty();
             if (jQuery.isEmptyObject(promise)) {
                 var text = "You have no upcoming assignments";
@@ -37,7 +35,6 @@ function get() {
 // handle delete button click for each assignment
 $(document).ready(function() {
     $("#assignment_list").on( "click", ".deletebutton", function() {
-        console.log("activated");
         var id = $(this).attr('id');
         id = id.slice(10);
         fetch("http://localhost:9000/assignment/delete?id=" + id.toString(),
@@ -53,7 +50,6 @@ function email() {
     fetch("http://localhost:9000/assignment/get?user=" +
     window.sessionStorage.getItem("AsTrackerDetails_id"))
     .then((promise)=> {
-        console.log(promise);
         return promise.json();
     })
     .then((promise)=> {
@@ -71,8 +67,8 @@ function email() {
                 task: tasklist,
                 email: window.sessionStorage.getItem("AsTrackerDetails_mail"),
                 })
-            .then((response)=> {
-                console.log(response);
+            .then(()=> {
+                $('#result').text("Sent successfully");
             })
             .catch((error)=> {
                 console.log(error);
@@ -91,8 +87,7 @@ function logout() {
 
 function onLoad() {
     var user_email = window.sessionStorage.getItem("AsTrackerDetails_mail");
-    console.log(user_email);
-    if(jQuery.isEmptyObject(user_email)) {
+    if(!jQuery.isEmptyObject(user_email)) {
         $("body").empty();
         $("body").append("<p>You are not logged in</p>");
         $("body").append("<button onClick=\"logout()\">Return to login page</button>");
@@ -105,8 +100,20 @@ function onLoad() {
     $("#year").val(new Date().getFullYear());
 }
 
+function add() {
+    // add a new assignment
+    $("#assignment_editor").empty();
+    $('#assignment_editor').append("<table><tr><td>Course</td><td><input id=\"course\"></input></td>"+
+        "</tr><tr><td>Title</td><td><input id=\"title\"></input></td></tr><tr>" + 
+        "<td>Due Day</td><td><input id=\"day\"></input></td></tr><tr><td>Due Month</td>" +
+        "<td><input id=\"month\"></input></td></tr><tr><td>Due Year</td><td>" + 
+        "<input id=\"year\"></input></td></tr></table>");
+    $("#year").val(new Date().getFullYear());
+    $("#assignment_editor").append("<button onClick=\"post()\">Add</button>");
+}
 
 function post() {
+    // post a new assignment
     var user_id = window.sessionStorage.getItem("AsTrackerDetails_id");
     try {
         if ($("#course").val() == "" || $("#title").val() == "" ||
@@ -124,6 +131,7 @@ function post() {
         console.log(error);
         return;
     }
+    // post
     fetch("http://localhost:9000/assignment/post",
     {method: "POST",
     headers: {
@@ -135,18 +143,21 @@ function post() {
     .then((promise)=> {
         return promise.json();
     })
-    .then((promise)=> {
-        console.log(promise);
-        $("#day").val("");
-        $("#month").val("");
-        $("#year").val(new Date().getFullYear());
-        $("#title").val("");
-        $("#course").val("");
+    .then(()=> {
+        // reset the editor
+        $("assignment_editor").empty();
+        $("assignment_editor").append("<button onclick=\"add()\">Add a new assignment</button>");
         get();
     })
 }
 
 function deleteAccount() {
+    $("#deleteAcc").empty();
+    $("#deleteAcc").append("<label>Re-enter Password </label><input id=\"pass\"></input><br>" + 
+    "<button onClick=\"deleteConfirm()\">Confirm</button>");
+}
+
+function deleteConfirm() {
     fetch("http://localhost:9000/user/delete?email=" + 
     window.sessionStorage.getItem("AsTrackerDetails_mail") + "&password=" +
     $("#pass").val(),

@@ -27,44 +27,17 @@
             </table>
         </section>
         <div>
-            <h2>Get this list</h2>
             <button onClick="email()">Send to email</button>
         </div>
-        <div>
-            <h2>Add a new assignment</h2>
-            <table>
-                <tr>
-                    <td>Course</td>
-                    <td><input id="course"></input></td>
-                </tr>
-                <tr>
-                    <td>Title</td>
-                    <td><input id="title"></input></td>
-                </tr>
-                <tr>
-                    <td>Due Day</td>
-                    <td><input id="day"></input></td>
-                </tr>
-                <tr>
-                    <td>Due Month</td>
-                    <td><input id="month"></input></td>
-                </tr>
-                <tr>
-                    <td>Due Year</td>
-                    <td><input id="year"></input></td>
-                </tr>
-            </table>
-            <button onClick="post()">Add</button>
+        <div id="assignment_editor">
+            <button onclick="add()">Add a new assignment</button>
         </div>
         <h3 id="result"></h3>
         <div>
-            <h2>Log out</h2>
-            <button onClick="logout()">Okay</button>
+            <button onClick="logout()">Log out</button>
         </div>
-        <div>
-            <h2>Delete Account</h2>
-            <label>Re-enter Password </label><input id="pass"></input><br>
-            <button onClick="deleteAccount()">Okay</button>
+        <div id="deleteAcc">
+            <button onClick="deleteAccount()">Delete Account</button>
         </div>
     </div>
 </body>

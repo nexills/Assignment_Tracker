@@ -8,7 +8,6 @@ function login() {
         fetch("http://localhost:9000/user/login?email=" + $('#loginEmail').val() +
         "&password=" + $('#loginPassword').val())
         .then((response)=> {
-            console.log(response);
             if (response.status === 500) {
                 $('#result').text("Server Error: Login failed");
                 throw new Error("Server error");
@@ -57,7 +56,6 @@ function register() {
             }
         })
         .then((response)=> {
-            console.log(response);
             window.sessionStorage.setItem("AsTrackerDetails_id", response.user_id);
             window.sessionStorage.setItem("AsTrackerDetails_mail", response.email)
             window.location = "./dashboard.html";
