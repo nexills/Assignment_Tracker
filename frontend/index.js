@@ -52,13 +52,14 @@ function register() {
                     $('#result').text("Server Error: Register failed");
                     throw new Error("Server error");
                 }
-                console.log(response);
             }
         })
         .then((response)=> {
             window.sessionStorage.setItem("AsTrackerDetails_id", response.user_id);
             window.sessionStorage.setItem("AsTrackerDetails_mail", response.email)
-            window.location = "./dashboard.html";
+            window.setTimeout(()=> {
+                window.location = './dashboard.html';
+            }, 500);
         })
     } catch (error) {
         console.log(error);
