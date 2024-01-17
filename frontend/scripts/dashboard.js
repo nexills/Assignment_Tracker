@@ -4,18 +4,15 @@ function get() {
         fetch("http://localhost:9000/assignment/get?user=" +
         window.sessionStorage.getItem("AsTrackerDetails_id"))
         .then((promise)=> {
-            console.log(promise);
             return promise.json();
         })
         .then((promise)=> {
-            console.log(promise);
             $("#assignment_list").empty();
             if (jQuery.isEmptyObject(promise)) {
                 var text = "You have no upcoming assignments";
             } else {
                 // display in table
-                var text = "<tr><th>Title</th><th>Course</th><th>Due Date</th>"+
-                "<th>Delete</th></tr>";
+                var text = "<tr><th>Title</th><th>Course</th><th>Due Date</th><th></th></tr>";
                 for (var i = 0; i < promise.length; i++) {
                     text += "<tr><td>" + promise[i].title + "</td>";
                     text += "<td>" + promise[i].course_id + "</td>";
@@ -36,30 +33,27 @@ function get() {
 
 // handle delete button click for each assignment
 $(document).ready(function() {
-    $("#assignment_list").on( "click", ".deletebutton", function() {
-        console.log("activated");
+    $("#assignment_list").on("click", ".deletebutton", function() {
         var id = $(this).attr('id');
         id = id.slice(10);
         fetch("http://localhost:9000/assignment/delete?id=" + id.toString(),
         {method: "DELETE"})
-        .then(()=> {
-            get();
-        });
-      } );
-
+        .then(()=> {get();});
+        } 
+    );
 });
 
 function email() {        
     fetch("http://localhost:9000/assignment/get?user=" +
     window.sessionStorage.getItem("AsTrackerDetails_id"))
     .then((promise)=> {
-        console.log(promise);
         return promise.json();
     })
     .then((promise)=> {
         if (jQuery.isEmptyObject(promise)) {
             $("#result").text("You have no assignments due; cannot send email");
         } else {
+            // set up email
             tasklist = "";
             for (var i = 0; i < promise.length; i++) {
                 tasklist += promise[i].title + " from " + promise[i].course_id;
@@ -71,8 +65,8 @@ function email() {
                 task: tasklist,
                 email: window.sessionStorage.getItem("AsTrackerDetails_mail"),
                 })
-            .then((response)=> {
-                console.log(response);
+            .then(()=> {
+                $('#result').text("Sent successfully");
             })
             .catch((error)=> {
                 console.log(error);
@@ -86,41 +80,54 @@ function logout() {
         window.sessionStorage.removeItem("AsTrackerDetails_mail");
         window.sessionStorage.removeItem("AsTrackerDetails_id");
         window.location = './index.html';
-    }, 1500)
+    }, 1000)
 }
 
 function onLoad() {
     var user_email = window.sessionStorage.getItem("AsTrackerDetails_mail");
-    console.log(user_email);
-    if(jQuery.isEmptyObject(user_email)) {
+    if(!jQuery.isEmptyObject(user_email)) {
         $("body").empty();
         $("body").append("<p>You are not logged in</p>");
         $("body").append("<button onClick=\"logout()\">Return to login page</button>");
+        return;
     } else {
         $("#welcome").text("Welcome, " + user_email);
         get();
     }
 }
 
+function add() {
+    // let user enter infor for a new assignment
+    $("#assignment_editor").empty();
+    $('#assignment_editor').append("<table><tr><td>Course</td><td><input id=\"course\"></input></td>"+
+        "</tr><tr><td>Title</td><td><input id=\"title\"></input></td></tr><tr>" + 
+        "<td>Due Day</td><td><input id=\"day\"></input></td></tr><tr><td>Due Month</td>" +
+        "<td><input id=\"month\"></input></td></tr><tr><td>Due Year</td><td>" + 
+        "<input id=\"year\"></input></td></tr></table>");
+    $("#year").val(new Date().getFullYear());
+    $("#assignment_editor").append("<button onClick=\"post()\">Add</button>");
+}
 
 function post() {
+    // post a new assignment
     var user_id = window.sessionStorage.getItem("AsTrackerDetails_id");
     try {
-        if ($("#course").val() == "" || $("#title").val() == "" ||
-        $("#day").val() == "" || $("#month").val() == "" || $("#year").val() == "") {
-            throw "empty fields";
+        if ($("#course").val() === "" || $("#title").val() === "" ||
+        $("#day").val() === "" || $("#month").val() === "" || $("#year").val() === "") {
+            throw new Error("empty fields");
         }
         var day = parseInt($("#day").val());
         var month = parseInt($("#month").val());
         var year = parseInt($("#year").val());
         if (day < 1 || day > 31 || month < 1 || month > 12 || year < 2000) {
-            throw "input out of bound";
+            throw new Error("input out of bound");
         }
     } catch (error) {
         $("#result").text("Invalid input");
         console.log(error);
         return;
     }
+    // post
     fetch("http://localhost:9000/assignment/post",
     {method: "POST",
     headers: {
@@ -132,18 +139,22 @@ function post() {
     .then((promise)=> {
         return promise.json();
     })
-    .then((promise)=> {
-        console.log(promise);
-        $("#day").val("");
-        $("#month").val("");
-        $("#year").val("");
-        $("#title").val("");
-        $("#course").val("");
+    .then(()=> {
+        // reset the editor
+        $("assignment_editor").empty();
+        $("assignment_editor").append("<button onclick=\"add()\">Add a new assignment</button>");
         get();
     })
 }
 
 function deleteAccount() {
+    // prompt user to reconfirm
+    $("#deleteAcc").empty();
+    $("#deleteAcc").append("<label>Re-enter Password </label><input id=\"pass\"></input><br>" + 
+    "<button onClick=\"deleteConfirm()\">Confirm</button>");
+}
+
+function deleteConfirm() {
     fetch("http://localhost:9000/user/delete?email=" + 
     window.sessionStorage.getItem("AsTrackerDetails_mail") + "&password=" +
     $("#pass").val(),
@@ -151,7 +162,7 @@ function deleteAccount() {
     .then((response)=> {
         if (response.ok) {
             $("#result").text("Account deleted, logging you out...");
-            logout()
+            logout();
         }
     })
 }
