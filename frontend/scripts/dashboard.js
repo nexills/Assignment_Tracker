@@ -80,12 +80,12 @@ function logout() {
         window.sessionStorage.removeItem("AsTrackerDetails_mail");
         window.sessionStorage.removeItem("AsTrackerDetails_id");
         window.location = './index.html';
-    }, 1000)
+    }, 500)
 }
 
 function onLoad() {
     var user_email = window.sessionStorage.getItem("AsTrackerDetails_mail");
-    if(!jQuery.isEmptyObject(user_email)) {
+    if(jQuery.isEmptyObject(user_email)) {
         $("body").empty();
         $("body").append("<p>You are not logged in</p>");
         $("body").append("<button onClick=\"logout()\">Return to login page</button>");
@@ -141,8 +141,8 @@ function post() {
     })
     .then(()=> {
         // reset the editor
-        $("assignment_editor").empty();
-        $("assignment_editor").append("<button onclick=\"add()\">Add a new assignment</button>");
+        $("#assignment_editor").empty();
+        $("#assignment_editor").append("<button onclick=\"add()\">Add a new assignment</button>");
         get();
     })
 }

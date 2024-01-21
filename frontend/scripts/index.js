@@ -25,7 +25,7 @@ function login() {
                 $('#result').text("Logging you in");
                 window.setTimeout(()=> {
                     window.location = './dashboard.html';
-                }, 1200);
+                }, 500);
             }
         })
     } catch (error) {
@@ -56,7 +56,7 @@ function register() {
         })
         .then((response)=> {
             window.sessionStorage.setItem("AsTrackerDetails_id", response.user_id);
-            window.sessionStorage.setItem("AsTrackerDetails_mail", response.email)
+            window.sessionStorage.setItem("AsTrackerDetails_mail", response.email);
             window.setTimeout(()=> {
                 window.location = './dashboard.html';
             }, 500);
